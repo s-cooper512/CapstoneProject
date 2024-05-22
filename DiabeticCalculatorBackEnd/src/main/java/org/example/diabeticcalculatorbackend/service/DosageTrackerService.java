@@ -2,11 +2,14 @@ package org.example.diabeticcalculatorbackend.service;
 
 import org.example.diabeticcalculatorbackend.model.DosageTracker;
 import org.example.diabeticcalculatorbackend.model.Food;
+import org.example.diabeticcalculatorbackend.model.UserDosageProfile;
 import org.example.diabeticcalculatorbackend.repository.IDosageTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +19,9 @@ public class DosageTrackerService {
 
     @Autowired
     private FoodService foodService;
+
+    @Autowired
+    private UserService userService;
 
     public List<DosageTracker> getAllDosageTrackers() {
         return dosageTrackerRepository.findAll();
@@ -29,12 +35,25 @@ public class DosageTrackerService {
         return null;
     }
 
-    public void createDosageTracker (DosageTracker createThisDosageTracker, List<Long> foodIDs) {
+    public void createDosageTracker (DosageTracker createThisDosageTracker, List<Long> foodIDs, long userID) {
         List<Food> foods = new ArrayList<>();
         foodIDs.forEach(foodID -> {
             foods.add(foodService.getFoodByID(foodID));
         });
         createThisDosageTracker.setFood(foods);
+        createThisDosageTracker.setUser(userService.getUserByID(userID));
+
+        UserDosageProfile dosageProfile = userService.getUserByID(userID).getDosageProfile();
+
+        createThisDosageTracker.getFood().forEach(food -> {
+            createThisDosageTracker.setCalculatedFoodDosage(createThisDosageTracker.getCalculatedFoodDosage() + (food.getCarbsPerServing() * dosageProfile.getCarbsPerUnitOfInsulin()));
+        });
+
+        createThisDosageTracker.setCalculatedBloodGlucoseDosage((createThisDosageTracker.getCurrentBloodGlucose() - dosageProfile.getTargetBloodGlucose()) / dosageProfile.getBloodGlucosePointsPerUnitOfInsulin());
+
+        createThisDosageTracker.setCalculatedTotalDosage(createThisDosageTracker.getCalculatedFoodDosage() + createThisDosageTracker.getCalculatedBloodGlucoseDosage());
+
+        createThisDosageTracker.setTimeCalculated(new Date());
 
         dosageTrackerRepository.save(createThisDosageTracker);
     }

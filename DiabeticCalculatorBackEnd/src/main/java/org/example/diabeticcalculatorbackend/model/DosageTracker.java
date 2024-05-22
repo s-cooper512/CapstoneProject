@@ -2,7 +2,6 @@ package org.example.diabeticcalculatorbackend.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,6 @@ public class DosageTracker {
     private User user;
     @OneToMany
     private List<Food> food;
-    private long servingsConsumed;
 
     private long currentBloodGlucose;
 
@@ -41,10 +39,6 @@ public class DosageTracker {
 
     public void setFood(List<Food> food) {
         this.food = food;
-    }
-
-    public void setServingsConsumed(long servingsConsumed) {
-        this.servingsConsumed = servingsConsumed;
     }
 
     public void setCurrentBloodGlucose(long currentBloodGlucose) {
@@ -80,10 +74,6 @@ public class DosageTracker {
 
     public List<Food> getFood() {
         return food;
-    }
-
-    public long getServingsConsumed() {
-        return servingsConsumed;
     }
 
     public long getCurrentBloodGlucose() {

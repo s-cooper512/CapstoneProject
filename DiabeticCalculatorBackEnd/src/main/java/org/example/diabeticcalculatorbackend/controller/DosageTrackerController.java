@@ -23,9 +23,9 @@ public class DosageTrackerController {
         return dosageTrackerService.getDosageTrackerByID(ID);
     }
 
-    @PostMapping("/{foodIDs}")
-    public void createDosageTracker (@RequestBody DosageTracker dosageTracker, @PathVariable List<Long> foodIDs) {
-        dosageTrackerService.createDosageTracker(dosageTracker, foodIDs);
+    @PostMapping("/{userID}/{foodIDs}")
+    public void createDosageTracker (@RequestBody DosageTracker dosageTracker, @PathVariable List<Long> foodIDs, @PathVariable long userID) {
+        dosageTrackerService.createDosageTracker(dosageTracker, foodIDs, userID);
     }
 
     @DeleteMapping("/{ID}")
