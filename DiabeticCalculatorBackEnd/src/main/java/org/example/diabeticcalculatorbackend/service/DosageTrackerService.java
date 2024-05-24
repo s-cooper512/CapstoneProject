@@ -29,13 +29,26 @@ public class DosageTrackerService {
 
     public DosageTracker getDosageTrackerByID(long dosageTrackerID) {
         if (dosageTrackerRepository.findById(dosageTrackerID).isPresent()) {
+            dosageTrackerRepository.findById(dosageTrackerID).get().setLastIOBCheck(new Date());
+            Date deliveryDate = dosageTrackerRepository.findById(dosageTrackerID).get().getTimeCalculated();
+            Date checkDate = dosageTrackerRepository.findById(dosageTrackerID).get().getLastIOBCheck();
+
+            if (checkDate.getDate() == deliveryDate.getDate()) {
+                long timeBetween = checkDate.getHours() - deliveryDate.getHours();
+                checkDate.compareTo(deliveryDate);
+                if (timeBetween < 4) {
+                    dosageTrackerRepository.findById(dosageTrackerID).get().setInsulinOnBoard(dosageTrackerRepository.findById(dosageTrackerID).get().getCalculatedTotalDosage() - ((timeBetween * dosageTrackerRepository.findById(dosageTrackerID).get().getCalculatedTotalDosage()) / 4));
+                }
+            }
+
+
             return dosageTrackerRepository.findById(dosageTrackerID).get();
         }
 
         return null;
     }
 
-    public void createDosageTracker (DosageTracker createThisDosageTracker, List<Long> foodIDs, long userID) {
+    public DosageTracker createDosageTracker (DosageTracker createThisDosageTracker, List<Long> foodIDs, long userID) {
         List<Food> foods = new ArrayList<>();
         foodIDs.forEach(foodID -> {
             foods.add(foodService.getFoodByID(foodID));
@@ -55,7 +68,7 @@ public class DosageTrackerService {
 
         createThisDosageTracker.setTimeCalculated(new Date());
 
-        dosageTrackerRepository.save(createThisDosageTracker);
+        return dosageTrackerRepository.save(createThisDosageTracker);
     }
 
     public void deleteDosageTrackerByID (long deleteThisDosageTracker) {

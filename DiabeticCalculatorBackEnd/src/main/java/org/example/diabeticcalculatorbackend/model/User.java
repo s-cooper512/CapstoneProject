@@ -19,7 +19,19 @@ public class User {
     private UserDosageProfile dosageProfile;
 
     //Constructors
+    public User(long userID, String userFirstName, String userLastName, String userEmail, String userPassword, Date userDOB, UserDosageProfile userDosageProfile) {
+        this.setID(userID);
+        this.setFirstName(userFirstName);
+        this.setLastName(userLastName);
+        this.setEmail(userEmail);
+        this.setPassword(userPassword);
+        this.setDateOfBirth(userDOB);
+        this.setDosageProfile(userDosageProfile);
+    }
 
+    public User() {
+
+    }
 
     //Setters
     public void setID(Long ID) {

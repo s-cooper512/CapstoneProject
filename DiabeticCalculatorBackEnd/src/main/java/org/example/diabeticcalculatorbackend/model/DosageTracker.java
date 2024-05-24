@@ -23,9 +23,18 @@ public class DosageTracker {
     private long calculatedBloodGlucoseDosage;
     private long calculatedTotalDosage;
     private Date timeCalculated;
+    private Date lastIOBCheck;
+    private long insulinOnBoard;
 
     //Constructors
+    public DosageTracker() {
 
+    }
+    public DosageTracker(long trackerID, long trackerCurrentBG, Date trackerCalcDate) {
+        this.setID(trackerID);
+        this.setCurrentBloodGlucose(trackerCurrentBG);
+        this.setTimeCalculated(trackerCalcDate);
+    }
 
     //Setters
 
@@ -61,8 +70,14 @@ public class DosageTracker {
         this.timeCalculated = timeCalculated;
     }
 
+    public void setLastIOBCheck(Date lastIOBCheck) {
+        this.lastIOBCheck = lastIOBCheck;
+    }
 
-    //Getters
+    public void setInsulinOnBoard(long insulinOnBoard) {
+        this.insulinOnBoard = insulinOnBoard;
+    }
+//Getters
 
     public long getID() {
         return ID;
@@ -94,5 +109,13 @@ public class DosageTracker {
 
     public Date getTimeCalculated() {
         return timeCalculated;
+    }
+
+    public Date getLastIOBCheck() {
+        return lastIOBCheck;
+    }
+
+    public long getInsulinOnBoard() {
+        return insulinOnBoard;
     }
 }

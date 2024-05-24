@@ -2,6 +2,8 @@ package org.example.diabeticcalculatorbackend.controller;
 
 import org.example.diabeticcalculatorbackend.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.diabeticcalculatorbackend.model.Food;
 
@@ -24,17 +26,23 @@ public class FoodController {
     }
 
     @PostMapping
-    public void createFood (@RequestBody Food foodToAdd) {
+    public ResponseEntity<Food> createFood (@RequestBody Food foodToAdd) {
         foodService.createFood(foodToAdd);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{ID}")
-    public void deleteFoodByID (@PathVariable long ID) {
+    public ResponseEntity<?> deleteFoodByID (@PathVariable long ID) {
         foodService.deleteFoodByID(ID);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{ID}")
-    public void updateFoodByID (@PathVariable long ID, @RequestBody Food food) {
+    public ResponseEntity<Food> updateFoodByID (@PathVariable long ID, @RequestBody Food food) {
         foodService.updateFoodByID(ID, food);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

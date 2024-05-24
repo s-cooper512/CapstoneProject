@@ -3,6 +3,8 @@ package org.example.diabeticcalculatorbackend.controller;
 import org.example.diabeticcalculatorbackend.model.UserDosageProfile;
 import org.example.diabeticcalculatorbackend.service.UserDosageProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,17 +26,23 @@ public class UserDosageProfileController {
     }
 
     @PostMapping
-    public void createDosageProfile (@RequestBody UserDosageProfile dosageProfile) {
+    public ResponseEntity<UserDosageProfile> createDosageProfile (@RequestBody UserDosageProfile dosageProfile) {
         dosageProfileService.createUserDosageProfile(dosageProfile);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{ID}")
-    public void deleteDosageProfileByID (@PathVariable long ID) {
+    public ResponseEntity<?> deleteDosageProfileByID (@PathVariable long ID) {
         dosageProfileService.deleteUserDosageProfileByID(ID);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{ID}")
-    public void updateDosageProfileByID (@PathVariable long ID, @RequestBody UserDosageProfile dosageProfile) {
+    public ResponseEntity<UserDosageProfile> updateDosageProfileByID (@PathVariable long ID, @RequestBody UserDosageProfile dosageProfile) {
         dosageProfileService.updateUserDosageProfileByID(ID, dosageProfile);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

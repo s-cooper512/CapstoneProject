@@ -16,7 +16,16 @@ public class UserDosageProfile {
     private long BloodGlucosePointsPerUnitOfInsulin;
 
     //Constructors
+    public UserDosageProfile() {
 
+    }
+
+    public UserDosageProfile(long dosageProfileID, long dosageProfileICRation, long dosageProfileTargetBG, long dosageProfileInsulinSensitivity) {
+        this.setID(dosageProfileID);
+        this.setCarbsPerUnitOfInsulin(dosageProfileICRation);
+        this.setTargetBloodGlucose(dosageProfileTargetBG);
+        this.setBloodGlucosePointsPerUnitOfInsulin(dosageProfileInsulinSensitivity);
+    }
 
     //Setters
 

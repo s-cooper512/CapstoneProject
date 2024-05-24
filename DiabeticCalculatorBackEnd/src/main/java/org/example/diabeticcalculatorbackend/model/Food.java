@@ -16,7 +16,16 @@ public class Food {
     private long carbsPerServing;
 
     //Constructors
+    public Food () {
 
+    }
+
+    public Food(long foodID, String foodName, long foodServingSize, long foodCarbs) {
+        this.setID(foodID);
+        this.setFoodName(foodName);
+        this.setServingSize(foodServingSize);
+        this.setCarbsPerServing(foodCarbs);
+    }
 
     //Setters
     public void setID(long ID) {
