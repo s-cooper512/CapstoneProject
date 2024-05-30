@@ -1,0 +1,58 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #282c34;
+  color: white;
+}
+
+.header .app-name {
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+}
+
+.header .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.header .user-initial {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  color: #282c34;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.header nav {
+  display: flex;
+  gap: 15px;
+}
+
+.header nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.header nav button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+.light-mode {
+  background-color: white;
+  color: black;
+}
