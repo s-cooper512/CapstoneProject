@@ -1,3 +1,5 @@
+// src/components/Header.jsx
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -5,30 +7,39 @@ const Header = ({ username, onLogout, toggleTheme, isDarkMode }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('username');
         onLogout();
         navigate('/login');
     };
 
+    const handleProfileClick = () => {
+        navigate('/profile');
+    };
+
     return (
         <header className="header">
-            <Link to="/" className="app-name">MyApp</Link>
+            <Link to="/" className="app-name">Diabetic Calculator</Link>
+            <div className="nav-links">
+                <Link to="/about">About</Link>
+            </div>
             {username && (
                 <div className="user-info">
-                    <div className="user-initial">{username.charAt(0)}</div>
-                    <span>{username}</span>
+                    <div className="user-initial" onClick={handleProfileClick}>{username.charAt(0).toUpperCase()}</div>
+                    <div className="user-details">
+                        <div className="username">{username}</div>
+                        <div className="toggle-label">
+                            Dark Mode
+                            <label className="toggle-switch">
+                                <input type="checkbox" checked={isDarkMode} onChange={(e) => {
+                                    e.stopPropagation();
+                                    toggleTheme();
+                                }} />
+                                <span className="slider"></span>
+                            </label>
+                        </div>
+                        <button onClick={handleLogout}>Log Out</button>
+                    </div>
                 </div>
             )}
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="/about">About</Link>
-                <Link to="/error">Error</Link>
-                <button onClick={handleLogout}>Log out</button>
-                <button onClick={toggleTheme}>
-                    {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                </button>
-            </nav>
         </header>
     );
 };

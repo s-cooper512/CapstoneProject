@@ -59,7 +59,7 @@ public class DosageTrackerService {
         UserDosageProfile dosageProfile = userService.getUserByID(userID).getDosageProfile();
 
         createThisDosageTracker.getFood().forEach(food -> {
-            createThisDosageTracker.setCalculatedFoodDosage(createThisDosageTracker.getCalculatedFoodDosage() + (food.getCarbsPerServing() * dosageProfile.getCarbsPerUnitOfInsulin()));
+            createThisDosageTracker.setCalculatedFoodDosage(createThisDosageTracker.getCalculatedFoodDosage() + (food.getCarbsPerServing() / dosageProfile.getCarbsPerUnitOfInsulin()));
         });
 
         createThisDosageTracker.setCalculatedBloodGlucoseDosage((createThisDosageTracker.getCurrentBloodGlucose() - dosageProfile.getTargetBloodGlucose()) / dosageProfile.getBloodGlucosePointsPerUnitOfInsulin());

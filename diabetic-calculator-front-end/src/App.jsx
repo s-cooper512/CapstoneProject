@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
@@ -7,6 +9,7 @@ import HomePage from './components/HomePage';
 import ProfilePage from './components/ProfilePage';
 import AboutPage from './components/AboutPage';
 import ErrorPage from './components/ErrorPage';
+import './index.css';  // Import CSS
 
 const App = () => {
     const [username, setUsername] = useState('');
@@ -17,6 +20,8 @@ const App = () => {
         if (storedUsername) {
             setUsername(storedUsername);
         }
+        const storedTheme = localStorage.getItem('isDarkMode') === 'true';
+        setIsDarkMode(storedTheme);
     }, []);
 
     const handleLogin = (username) => {
@@ -25,10 +30,13 @@ const App = () => {
 
     const handleLogout = () => {
         setUsername('');
+        localStorage.removeItem('username');
     };
 
     const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
+        const newTheme = !isDarkMode;
+        setIsDarkMode(newTheme);
+        localStorage.setItem('isDarkMode', newTheme);
     };
 
     return (
@@ -43,8 +51,8 @@ const App = () => {
                 <Routes>
                     <Route path="/login" element={username ? <Navigate to="/" /> : <LoginPage onLogin={handleLogin} />} />
                     <Route path="/signup" element={<SignUpPage />} />
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/" element={username ? <HomePage /> : <Navigate to="/login" />} />
+                    <Route path="/profile" element={username ? <ProfilePage username={username} /> : <Navigate to="/login" />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/error" element={<ErrorPage />} />
                     <Route path="*" element={<Navigate to="/error" />} />
