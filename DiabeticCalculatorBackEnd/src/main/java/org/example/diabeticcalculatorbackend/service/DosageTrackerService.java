@@ -41,6 +41,8 @@ public class DosageTrackerService {
                 }
             }
 
+            dosageTrackerRepository.save(dosageTrackerRepository.findById(dosageTrackerID).get());
+
 
             return dosageTrackerRepository.findById(dosageTrackerID).get();
         }
